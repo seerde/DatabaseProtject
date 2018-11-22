@@ -19,7 +19,7 @@ namespace DatabaseProtject
         public Form1()
         {
             InitializeComponent();
-            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Seerde\Documents\DatabaseProject.accdb; Persist Security Info=False;";
+            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Seerde\source\repos\DatabaseProtject\DatabaseProject.accdb; Persist Security Info=False;";
             connection.ConnectionString = db1;
         }
 
