@@ -17,57 +17,106 @@ namespace DatabaseProtject
         public Form2()
         {
             InitializeComponent();
-            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Seerde\Documents\DatabaseProject.accdb; Persist Security Info=False;";
+            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\DatabaseProject.accdb; Persist Security Info=False;";
             connection.ConnectionString = db1;
-        }
-
-        private void Form2_Load(object sender, EventArgs e)
-        {
-            //this.stationTableAdapter.Fill(this.databaseProjectDataSet.Station);
-            label1.Text = "Welcome " + Form1.usr;
-
-            connection.Open();
-            OleDbCommand command = new OleDbCommand();
-            command.Connection = connection;
-
-            String qry = "select * from Station inner join ScheduleStation on Station.StationID=ScheduleStation.StationID";
-            command.CommandText = qry;
-
-            OleDbDataReader reader = command.ExecuteReader();
-
-            for (int i = 0; i < reader.FieldCount; i++)
-            {
-                dataGridView1.Columns.Add(reader.GetName(i), reader.GetName(i));
-                //dataGridView1.Rows.Add(reader[i].ToString());
-                while (reader.Read())
-                    dataGridView1.Rows.Add(reader[i].ToString());
-            }
-            
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+
+            String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                " from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
+                " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
+                " inner join Station on ScheduleStation.StationID=Station.StationID" +
+                " where StationName = 'Seoul' and DepartureTime = 0";
+            command.CommandText = qry;
+            OleDbDataReader reader = command.ExecuteReader();
+            for (int i = 0; i < reader.FieldCount; i++)
             {
-                connection.Open();
-                OleDbCommand command = new OleDbCommand();
-                command.Connection = connection;
-
-                String qry = "INSERT INTO Station (StationName) VALUES (@StationName)";
-                command.CommandText = qry;
-
-                command.Parameters.AddWithValue("@StationName", textBox1.Text);
-
-                command.ExecuteNonQuery();
-                MessageBox.Show("Station Added!");
-
-                connection.Close();
+                dataGridView1.Columns.Add(reader.GetName(i), reader.GetName(i));
             }
-            catch (Exception ee)
+            while (reader.Read())
             {
-                MessageBox.Show("Error " + ee);
+                dataGridView1.Rows.Add(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString());
             }
             connection.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+
+            String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                " from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
+                " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
+                " inner join Station on ScheduleStation.StationID=Station.StationID" +
+                " where StationName = 'Busan' and DepartureTime = 0";
+            command.CommandText = qry;
+            OleDbDataReader reader = command.ExecuteReader();
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                dataGridView1.Columns.Add(reader.GetName(i), reader.GetName(i));
+            }
+            while (reader.Read())
+            {
+                dataGridView1.Rows.Add(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString());
+            }
+            connection.Close();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+
+            String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                " from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
+                " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
+                " inner join Station on ScheduleStation.StationID=Station.StationID" +
+                " where StationName =?";
+            command.CommandText = qry;
+            command.Parameters.AddWithValue("@p1", comboBox1.SelectedItem.ToString());
+            OleDbDataReader reader = command.ExecuteReader();
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                dataGridView1.Columns.Add(reader.GetName(i), reader.GetName(i));
+            }
+            while (reader.Read())
+            {
+                dataGridView1.Rows.Add(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString());
+            }
+            connection.Close();
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            Form3.mm1 += 5;
+            TimeSpan span = TimeSpan.FromMinutes(Form3.mm1);
+            label7.Text = span.ToString(@"hh\:mm");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            Form3 f3 = new Form3();
+            f3.ShowDialog();
         }
     }
 }

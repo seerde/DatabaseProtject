@@ -44,7 +44,9 @@
             this.button9 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.button10 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // label1
@@ -106,7 +108,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(45, 73);
+            this.label3.Location = new System.Drawing.Point(21, 74);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(35, 13);
             this.label3.TabIndex = 6;
@@ -114,7 +116,7 @@
             // 
             // button2
             // 
-            this.button2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.button2.BackColor = System.Drawing.Color.Red;
             this.button2.Location = new System.Drawing.Point(48, 164);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(73, 52);
@@ -125,61 +127,67 @@
             // 
             // button3
             // 
+            this.button3.BackColor = System.Drawing.Color.Red;
             this.button3.Location = new System.Drawing.Point(127, 164);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(73, 52);
             this.button3.TabIndex = 8;
             this.button3.Text = "1B";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button3.UseVisualStyleBackColor = false;
             // 
             // button4
             // 
+            this.button4.BackColor = System.Drawing.Color.Red;
             this.button4.Location = new System.Drawing.Point(48, 222);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(73, 52);
             this.button4.TabIndex = 9;
             this.button4.Text = "2A";
-            this.button4.UseVisualStyleBackColor = true;
+            this.button4.UseVisualStyleBackColor = false;
             // 
             // button5
             // 
+            this.button5.BackColor = System.Drawing.Color.Red;
             this.button5.Location = new System.Drawing.Point(127, 222);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(73, 52);
             this.button5.TabIndex = 10;
             this.button5.Text = "2B";
-            this.button5.UseVisualStyleBackColor = true;
+            this.button5.UseVisualStyleBackColor = false;
             // 
             // button6
             // 
+            this.button6.BackColor = System.Drawing.Color.Red;
             this.button6.Location = new System.Drawing.Point(236, 164);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(73, 52);
             this.button6.TabIndex = 14;
             this.button6.Text = "1A";
-            this.button6.UseVisualStyleBackColor = true;
+            this.button6.UseVisualStyleBackColor = false;
             // 
             // button7
             // 
+            this.button7.BackColor = System.Drawing.Color.Red;
             this.button7.Location = new System.Drawing.Point(315, 164);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(73, 52);
             this.button7.TabIndex = 13;
             this.button7.Text = "1B";
-            this.button7.UseVisualStyleBackColor = true;
+            this.button7.UseVisualStyleBackColor = false;
             // 
             // button8
             // 
+            this.button8.BackColor = System.Drawing.Color.Red;
             this.button8.Location = new System.Drawing.Point(236, 222);
             this.button8.Name = "button8";
             this.button8.Size = new System.Drawing.Size(73, 52);
             this.button8.TabIndex = 12;
             this.button8.Text = "2A";
-            this.button8.UseVisualStyleBackColor = true;
+            this.button8.UseVisualStyleBackColor = false;
             // 
             // button9
             // 
-            this.button9.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.button9.BackColor = System.Drawing.Color.Red;
             this.button9.Location = new System.Drawing.Point(315, 222);
             this.button9.Name = "button9";
             this.button9.Size = new System.Drawing.Size(73, 52);
@@ -205,20 +213,42 @@
             this.label5.TabIndex = 16;
             this.label5.Text = "Car 2";
             // 
-            // richTextBox1
+            // label6
             // 
-            this.richTextBox1.Location = new System.Drawing.Point(48, 311);
-            this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(321, 58);
-            this.richTextBox1.TabIndex = 17;
-            this.richTextBox1.Text = "";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(7, 9);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(87, 13);
+            this.label6.TabIndex = 17;
+            this.label6.Text = "Simulation Time: ";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(100, 9);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(34, 13);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "00:00";
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(140, 6);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(49, 19);
+            this.button10.TabIndex = 22;
+            this.button10.Text = "+5min";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(459, 428);
-            this.Controls.Add(this.richTextBox1);
+            this.ClientSize = new System.Drawing.Size(464, 461);
+            this.Controls.Add(this.button10);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button6);
@@ -260,6 +290,8 @@
         private System.Windows.Forms.Button button9;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button button10;
     }
 }

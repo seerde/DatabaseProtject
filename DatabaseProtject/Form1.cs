@@ -19,7 +19,7 @@ namespace DatabaseProtject
         public Form1()
         {
             InitializeComponent();
-            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Seerde\source\repos\DatabaseProtject\DatabaseProject.accdb; Persist Security Info=False;";
+            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\DatabaseProject.accdb; Persist Security Info=False;";
             connection.ConnectionString = db1;
         }
 
@@ -54,7 +54,9 @@ namespace DatabaseProtject
                     usrLvl = 1;
                     this.Hide();
                     Form3 f3 = new Form3();
-                    f3.ShowDialog();
+                    Form2 f2 = new Form2();
+                    //f3.ShowDialog();
+                    f2.ShowDialog();
                 }
                 else
                     label3.Text = "Wrong Password or Username";

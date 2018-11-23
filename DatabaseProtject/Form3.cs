@@ -15,108 +15,109 @@ namespace DatabaseProtject
     {
         private OleDbConnection connection = new OleDbConnection();
         int TrainID = 0;
-        int hh1 = 0,mm1 = 0;
+        public static int hh1 = 0,mm1 = 0;
         int minuts1 = 0;
         String time1;
         String[] seats = new String[8];
 
         String[] train1 = {"00:00", "00:35", "00:40", "01:10", "01:15", "01:55", "02:00", "02:40", "null" };
         String[] train2 = {"00:00", "00:40", "00:45", "01:35", "01:40", "02:10", "02:15", "02:50", "null" };
-
         int s1 = 40, s2 = 35, s3 = 55, s4 = 45;
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+            mm1 += 5;
+            TimeSpan span = TimeSpan.FromMinutes(mm1);
+            label7.Text = span.ToString(@"hh\:mm");
+        }
 
         int[] seatsInt = new int[8];
         public Form3()
         {
             InitializeComponent();
-            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\Seerde\source\repos\DatabaseProtject\DatabaseProject.accdb; Persist Security Info=False;";
+            String db1 = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=|DataDirectory|\DatabaseProject.accdb; Persist Security Info=False;";
             connection.ConnectionString = db1;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            time1 = hh1.ToString("00") + ":" + mm1.ToString("00"); ;
+            //time1 = hh1.ToString("00") + ":" + mm1.ToString("00"); ;
             label3.Text = "";
             minuts1 = 0;
-            try
+
+            if (comboBox1.SelectedIndex < comboBox2.SelectedIndex)
             {
-                connection.Open();
-                OleDbCommand command = new OleDbCommand();
-                command.Connection = connection;
+                try
+                {
+                    connection.Open();
+                    OleDbCommand command = new OleDbCommand();
+                    command.Connection = connection;
 
-                //String qry = "select * from Train where TrainDes =? or TrainSource =?";
-                String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime  " +
-                    "from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
-                    " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
-                    " inner join Station on ScheduleStation.StationID=Station.StationID" +
-                    " where(StationName =? and DepartureTime =?)" +
-                    " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
-                    " from((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID= TrainSchedule.TrainScheduleID)" +
-                    " inner join Train on TrainSchedule.TrainID = Train.TrainID)" +
-                    " inner join Station on ScheduleStation.StationID = Station.StationID" +
-                    " where(StationName =? and ArrivalTime =?)";
-                command.CommandText = qry;
+                    String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime  " +
+                        "from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
+                        " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
+                        " inner join Station on ScheduleStation.StationID=Station.StationID" +
+                        " where(StationName =? and TrainDes ='Busan')" +
+                        " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                        " from((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID= TrainSchedule.TrainScheduleID)" +
+                        " inner join Train on TrainSchedule.TrainID = Train.TrainID)" +
+                        " inner join Station on ScheduleStation.StationID = Station.StationID" +
+                        " where(StationName =? and TrainDes ='Busan')";
+                    command.CommandText = qry;
 
-                command.Parameters.AddWithValue("@p1", comboBox1.SelectedItem.ToString());
-                command.Parameters.AddWithValue("@p2", minuts1);
-                command.Parameters.AddWithValue("@p3", comboBox2.SelectedItem.ToString());
-                if(comboBox1.SelectedIndex == 0 && comboBox2.SelectedIndex == 4)
-                {
-                    minuts1 += (s1 + s2 + s3 + s4) - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }else if(comboBox1.SelectedIndex == 0 && comboBox2.SelectedIndex == 3)
-                {
-                    minuts1 += (s1 + s2 + s3) - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
-                else if (comboBox1.SelectedIndex == 0 && comboBox2.SelectedIndex == 2)
-                {
-                    minuts1 += (s1 + s2) - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
-                else if (comboBox1.SelectedIndex == 0 && comboBox2.SelectedIndex == 1)
-                {
-                    minuts1 += s1 - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
-                else if (comboBox1.SelectedIndex == 4 && comboBox2.SelectedIndex == 0)
-                {
-                    minuts1 += (s1 + s2 + s3 + s4) - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
-                else if (comboBox1.SelectedIndex == 4 && comboBox2.SelectedIndex == 1)
-                {
-                    minuts1 += (s2 + s3 + s4) - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
-                else if (comboBox1.SelectedIndex == 4 && comboBox2.SelectedIndex == 2)
-                {
-                    minuts1 += (s3 + s4) - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
-                else if (comboBox1.SelectedIndex == 4 && comboBox2.SelectedIndex == 3)
-                {
-                    minuts1 += s4 - 5;
-                    command.Parameters.AddWithValue("@p4", minuts1);
-                }
+                    command.Parameters.AddWithValue("@p1", comboBox1.SelectedItem.ToString());
+                    command.Parameters.AddWithValue("@p2", comboBox2.SelectedItem.ToString());
 
-                OleDbDataReader reader = command.ExecuteReader();
-                /*
-                while (reader.Read())
+                    OleDbDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        label3.Text += "Train No: " + reader[0] + " Train Type: " + reader[1] + " Going to: " + reader[2] + " Departure Time: " + reader[3] + " Arrival Time: " + reader[4] + "\n";
+                        TrainID = (int)reader[0];
+                    }
+                }
+                catch (Exception ee)
                 {
-                    label3.Text = "Train No: " +reader[0]+ " Train Type: " +reader[1]+" Train Source: " +reader[3]+ " Train Destnation: "+reader[2]+" Train Cars: "+reader[4];
-                    TrainID = (int)reader[0];
-                }*/
-                while (reader.Read())
-                {
-                    label3.Text += "Train No: " + reader[0] + " Train Type: " + reader[1] + " Going to: " + reader[2] + " Departure Time: " + reader[3] + " Arrival Time: " + reader[4] + "\n";
-                    TrainID = (int)reader[0];
+                    MessageBox.Show("Error " + ee);
                 }
             }
-            catch (Exception ee)
+            else if(comboBox1.SelectedIndex > comboBox2.SelectedIndex)
             {
-                MessageBox.Show("Error " + ee);
+                try
+                {
+                    connection.Open();
+                    OleDbCommand command = new OleDbCommand();
+                    command.Connection = connection;
+
+                    String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime  " +
+                        "from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
+                        " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
+                        " inner join Station on ScheduleStation.StationID=Station.StationID" +
+                        " where(StationName =? and TrainDes ='Seoul')" +
+                        " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                        " from((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID= TrainSchedule.TrainScheduleID)" +
+                        " inner join Train on TrainSchedule.TrainID = Train.TrainID)" +
+                        " inner join Station on ScheduleStation.StationID = Station.StationID" +
+                        " where(StationName =? and TrainDes ='Seoul')";
+                    command.CommandText = qry;
+
+                    command.Parameters.AddWithValue("@p1", comboBox1.SelectedItem.ToString());
+                    command.Parameters.AddWithValue("@p2", comboBox2.SelectedItem.ToString());
+
+                    OleDbDataReader reader = command.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        label3.Text += "Train No: " + reader[0] + " Train Type: " + reader[1] + " Going to: " + reader[2] + " Departure Time: " + reader[3] + " Arrival Time: " + reader[4] + "\n";
+                        TrainID = (int)reader[0];
+                    }
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Error " + ee);
+                }
             }
+
             connection.Close();
             try
             {
@@ -187,6 +188,10 @@ namespace DatabaseProtject
 
         private void button2_Click(object sender, EventArgs e)
         {
+            if(button2.BackColor != Color.Red)
+            {
+
+            }
             connection.Open();
             OleDbCommand command = new OleDbCommand();
             command.Connection = connection;
