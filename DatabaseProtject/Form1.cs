@@ -55,8 +55,8 @@ namespace DatabaseProtject
                     this.Hide();
                     Form3 f3 = new Form3();
                     Form2 f2 = new Form2();
-                    //f3.ShowDialog();
-                    f2.ShowDialog();
+                    f3.ShowDialog();
+                    //f2.ShowDialog();
                 }
                 else
                     label3.Text = "Wrong Password or Username";

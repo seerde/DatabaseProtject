@@ -31,6 +31,56 @@ namespace DatabaseProtject
             label7.Text = span.ToString(@"hh\:mm");
         }
 
+        private void label10_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(1);
+        }
+
+        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        {
+            Form2 f2 = new Form2();
+            this.Hide();
+            f2.ShowDialog();
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (button3.BackColor != Color.Red)
+            {
+                button3.BackColor = Color.Green;
+                label12.Text += " " + button3.Text;
+            }
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (button4.BackColor != Color.Red)
+            {
+                button4.BackColor = Color.Green;
+                label12.Text += " " + button4.Text;
+            }
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            if(button3.BackColor == Color.Green)
+            {
+                button3.BackColor = Color.Red;
+                label12.Text = "";
+            }
+            if(button4.BackColor == Color.Green)
+            {
+                button4.BackColor = Color.Red;
+                label12.Text = "";
+            }
+            MessageBox.Show("Booked!");
+        }
+
         int[] seatsInt = new int[8];
         public Form3()
         {
