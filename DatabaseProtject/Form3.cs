@@ -15,14 +15,21 @@ namespace DatabaseProtject
     {
         private OleDbConnection connection = new OleDbConnection();
         int TrainID = 0;
+        int ssIDDep = 0;
+        int ssIDAri = 0;
         public static int hh1 = 0,mm1 = 0;
         int minuts1 = 0;
         String time1;
         String[] seats = new String[8];
+        List<String> bookSeats = new List<String>();
+        List<int> ssID = new List<int>();
 
         String[] train1 = {"00:00", "00:35", "00:40", "01:10", "01:15", "01:55", "02:00", "02:40", "null" };
         String[] train2 = {"00:00", "00:40", "00:45", "01:35", "01:40", "02:10", "02:15", "02:50", "null" };
         int s1 = 40, s2 = 35, s3 = 55, s4 = 45;
+        int price;
+        String CarNumber = "";
+        int BookingID;
 
         private void button10_Click(object sender, EventArgs e)
         {
@@ -50,35 +57,99 @@ namespace DatabaseProtject
 
         private void button3_Click(object sender, EventArgs e)
         {
-            if (button3.BackColor != Color.Red)
+            if (button3.BackColor == Color.Orange)
             {
                 button3.BackColor = Color.Green;
                 label12.Text += " " + button3.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button3.Text);
+                CarNumber = "Car1";
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (button4.BackColor != Color.Red)
+            if (button4.BackColor == Color.Orange)
             {
                 button4.BackColor = Color.Green;
                 label12.Text += " " + button4.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button4.Text);
+                CarNumber = "Car1";
             }
         }
 
         private void button11_Click(object sender, EventArgs e)
         {
-            if(button3.BackColor == Color.Green)
+            if (button2.BackColor == Color.Green)
+            {
+                button2.BackColor = Color.Red;
+            }
+            if (button3.BackColor == Color.Green)
             {
                 button3.BackColor = Color.Red;
-                label12.Text = "";
             }
             if(button4.BackColor == Color.Green)
             {
                 button4.BackColor = Color.Red;
-                label12.Text = "";
             }
+            if (button5.BackColor == Color.Green)
+            {
+                button5.BackColor = Color.Red;
+            }
+            label12.Text = "";
+
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+
+            String qry = "insert into Booking(BookingDate, CustomerName) values(?,?)";
+            command.CommandText = qry;
+            command.Parameters.AddWithValue("@p1", DateTime.Now.ToString("h:mm:ss"));
+            command.Parameters.AddWithValue("@p2", textBox1.Text);
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            connection.Open();
+            qry = "select BookingID from Booking where CustomerName = ?";
+            command.CommandText = qry;
+            command.Parameters.AddWithValue("@p1", textBox1.Text);
+            OleDbDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+                BookingID = (int)reader[0];
+            connection.Close();
+
+            connection.Open();
+            for(int i = 0; i < bookSeats.Count; i++)
+            {
+                qry = "insert into BookSeat(BookingID, Price, ScheduleStationID, Source, Des, SeatNumber, CarNumber) values(?,?,?,?,?,?,?)";
+                command.CommandText = qry;
+                command.Parameters.AddWithValue("@p1", BookingID);
+                command.Parameters.AddWithValue("@p2", price);
+                command.Parameters.AddWithValue("@p3", ssID[1]);
+                command.Parameters.AddWithValue("@p4", comboBox1.SelectedItem);
+                command.Parameters.AddWithValue("@p5", comboBox2.SelectedItem);
+                command.Parameters.AddWithValue("@p6", bookSeats[i]);
+                command.Parameters.AddWithValue("@p7", CarNumber);
+                command.ExecuteNonQuery();
+            }
+            connection.Close();
             MessageBox.Show("Booked!");
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            if (button5.BackColor == Color.Orange)
+            {
+                button5.BackColor = Color.Green;
+                label12.Text += " " + button5.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button5.Text);
+                CarNumber = "Car1";
+            }
         }
 
         int[] seatsInt = new int[8];
@@ -103,12 +174,12 @@ namespace DatabaseProtject
                     OleDbCommand command = new OleDbCommand();
                     command.Connection = connection;
 
-                    String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime  " +
+                    String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime, ScheduleStationID " +
                         "from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
                         " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
                         " inner join Station on ScheduleStation.StationID=Station.StationID" +
                         " where(StationName =? and TrainDes ='Busan')" +
-                        " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                        " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime, ScheduleStationID " +
                         " from((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID= TrainSchedule.TrainScheduleID)" +
                         " inner join Train on TrainSchedule.TrainID = Train.TrainID)" +
                         " inner join Station on ScheduleStation.StationID = Station.StationID" +
@@ -124,6 +195,7 @@ namespace DatabaseProtject
                     {
                         label3.Text += "Train No: " + reader[0] + " Train Type: " + reader[1] + " Going to: " + reader[2] + " Departure Time: " + reader[3] + " Arrival Time: " + reader[4] + "\n";
                         TrainID = (int)reader[0];
+                        ssID.Add((int)reader[5]);
                     }
                 }
                 catch (Exception ee)
@@ -139,12 +211,12 @@ namespace DatabaseProtject
                     OleDbCommand command = new OleDbCommand();
                     command.Connection = connection;
 
-                    String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime  " +
+                    String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime, ScheduleStationID " +
                         "from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
                         " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
                         " inner join Station on ScheduleStation.StationID=Station.StationID" +
                         " where(StationName =? and TrainDes ='Seoul')" +
-                        " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
+                        " union select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime, ScheduleStationID " +
                         " from((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID= TrainSchedule.TrainScheduleID)" +
                         " inner join Train on TrainSchedule.TrainID = Train.TrainID)" +
                         " inner join Station on ScheduleStation.StationID = Station.StationID" +
@@ -160,6 +232,7 @@ namespace DatabaseProtject
                     {
                         label3.Text += "Train No: " + reader[0] + " Train Type: " + reader[1] + " Going to: " + reader[2] + " Departure Time: " + reader[3] + " Arrival Time: " + reader[4] + "\n";
                         TrainID = (int)reader[0];
+                        ssID.Add((int)reader[5]);
                     }
                 }
                 catch (Exception ee)
@@ -238,11 +311,16 @@ namespace DatabaseProtject
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if(button2.BackColor != Color.Red)
+            if (button2.BackColor != Color.Red)
             {
-
+                button2.BackColor = Color.Green;
+                label12.Text += " " + button2.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button2.Text);
+                CarNumber = "Car1";
             }
-            connection.Open();
+            /*connection.Open();
             OleDbCommand command = new OleDbCommand();
             command.Connection = connection;
 
@@ -254,7 +332,7 @@ namespace DatabaseProtject
             command.ExecuteNonQuery();
 
             connection.Close();
-            button2.BackColor = Color.Red;
+            button2.BackColor = Color.Red;*/
         }
     }
 }
