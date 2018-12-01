@@ -21,6 +21,9 @@ namespace DatabaseProtject
         int minuts1 = 0;
         String time1;
         String[] seats = new String[8];
+        String[] seats2 = new String[8];
+        String[] Stations = { "Seoul", "Cheonan", "Daejeon", "Daegu", "Busan" };
+        String[] Stations2 = { "Busan", "Daegu", "Daejeon", "Cheonan", "Seoul" };
         List<String> bookSeats = new List<String>();
         List<int> ssID = new List<int>();
 
@@ -66,6 +69,13 @@ namespace DatabaseProtject
                 bookSeats.Add(button3.Text);
                 CarNumber = "Car1";
             }
+            else if (button3.BackColor == Color.Green)
+            {
+                button3.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button3.Text);
+            }
         }
 
         private void button4_Click(object sender, EventArgs e)
@@ -78,6 +88,13 @@ namespace DatabaseProtject
                 label14.Text = price.ToString();
                 bookSeats.Add(button4.Text);
                 CarNumber = "Car1";
+            }
+            else if (button4.BackColor == Color.Green)
+            {
+                button4.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button4.Text);
             }
         }
 
@@ -99,6 +116,22 @@ namespace DatabaseProtject
             {
                 button5.BackColor = Color.Red;
             }
+            if (button6.BackColor == Color.Green)
+            {
+                button6.BackColor = Color.Red;
+            }
+            if (button7.BackColor == Color.Green)
+            {
+                button7.BackColor = Color.Red;
+            }
+            if (button8.BackColor == Color.Green)
+            {
+                button8.BackColor = Color.Red;
+            }
+            if (button9.BackColor == Color.Green)
+            {
+                button9.BackColor = Color.Red;
+            }
             label12.Text = "";
 
             connection.Open();
@@ -113,29 +146,33 @@ namespace DatabaseProtject
             connection.Close();
 
             connection.Open();
-            qry = "select BookingID from Booking where CustomerName = ?";
+            qry = "select BookingID from Booking where CustomerName ='"+ textBox1.Text +"'";
             command.CommandText = qry;
-            command.Parameters.AddWithValue("@p1", textBox1.Text);
+            //command.Parameters.AddWithValue("@p1", textBox1.Text);
             OleDbDataReader reader = command.ExecuteReader();
-            while (reader.Read())
+            while(reader.Read())
                 BookingID = (int)reader[0];
             connection.Close();
 
             connection.Open();
-            for(int i = 0; i < bookSeats.Count; i++)
+            OleDbCommand command2 = new OleDbCommand();
+            command2.Connection = connection;
+            for (int i = 0; i < bookSeats.Count; i++)
             {
-                qry = "insert into BookSeat(BookingID, Price, ScheduleStationID, Source, Des, SeatNumber, CarNumber) values(?,?,?,?,?,?,?)";
-                command.CommandText = qry;
-                command.Parameters.AddWithValue("@p1", BookingID);
-                command.Parameters.AddWithValue("@p2", price);
-                command.Parameters.AddWithValue("@p3", ssID[1]);
-                command.Parameters.AddWithValue("@p4", comboBox1.SelectedItem);
-                command.Parameters.AddWithValue("@p5", comboBox2.SelectedItem);
-                command.Parameters.AddWithValue("@p6", bookSeats[i]);
-                command.Parameters.AddWithValue("@p7", CarNumber);
-                command.ExecuteNonQuery();
+                qry = "insert into BookSeat(BookingID, Price, ScheduleStationID, Source, Des, SeatNumber, CarNumber) values(?,?,?,?,?,'"+ bookSeats[i] + "',?)";
+                command2.CommandText = qry;
+                command2.Parameters.AddWithValue("@p1", BookingID);
+                command2.Parameters.AddWithValue("@p2", 10);
+                if(comboBox1.SelectedIndex > comboBox2.SelectedIndex)
+                    command2.Parameters.AddWithValue("@p3", ssID[1]);
+                command2.Parameters.AddWithValue("@p4", comboBox1.SelectedItem);
+                command2.Parameters.AddWithValue("@p5", comboBox2.SelectedItem);
+                //command2.Parameters.AddWithValue("@p6", bookSeats[i]);
+                command2.Parameters.AddWithValue("@p6", CarNumber);
+                command2.ExecuteNonQuery();
             }
             connection.Close();
+            
             MessageBox.Show("Booked!");
         }
 
@@ -149,6 +186,93 @@ namespace DatabaseProtject
                 label14.Text = price.ToString();
                 bookSeats.Add(button5.Text);
                 CarNumber = "Car1";
+            }
+            else if (button5.BackColor == Color.Green)
+            {
+                button5.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button5.Text);
+            }
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            if (button6.BackColor != Color.Red)
+            {
+                button6.BackColor = Color.Green;
+                label12.Text += " " + button6.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button6.Text);
+                CarNumber = "Car2";
+            }
+            else if (button6.BackColor == Color.Green)
+            {
+                button6.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button6.Text);
+            }
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            if (button7.BackColor != Color.Red)
+            {
+                button7.BackColor = Color.Green;
+                label12.Text += " " + button7.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button7.Text);
+                CarNumber = "Car2";
+            }
+            else if (button7.BackColor == Color.Green)
+            {
+                button7.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button7.Text);
+            }
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            if (button8.BackColor != Color.Red)
+            {
+                button8.BackColor = Color.Green;
+                label12.Text += " " + button8.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button8.Text);
+                CarNumber = "Car2";
+            }
+            else if (button8.BackColor == Color.Green)
+            {
+                button8.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button8.Text);
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            if (button9.BackColor != Color.Red)
+            {
+                button9.BackColor = Color.Green;
+                label12.Text += " " + button9.Text;
+                price += 10;
+                label14.Text = price.ToString();
+                bookSeats.Add(button9.Text);
+                CarNumber = "Car2";
+            }
+            else if (button9.BackColor == Color.Green)
+            {
+                button9.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button9.Text);
             }
         }
 
@@ -240,8 +364,9 @@ namespace DatabaseProtject
                     MessageBox.Show("Error " + ee);
                 }
             }
-
             connection.Close();
+            #region
+            /*
             try
             {
                 connection.Open();
@@ -253,7 +378,7 @@ namespace DatabaseProtject
                 command.CommandText = qry;
 
                 command.Parameters.AddWithValue("@p1", TrainID);
-                Array.Clear(seats,0,seats.Length);
+                Array.Clear(seats, 0, seats.Length);
                 Array.Clear(seatsInt, 0, seats.Length);
 
                 OleDbDataReader reader = command.ExecuteReader();
@@ -302,7 +427,149 @@ namespace DatabaseProtject
                 else
                     button9.BackColor = Color.Red;
             }
-            catch(Exception ee)
+            catch (Exception ee)
+            {
+                MessageBox.Show("Error " + ee);
+            }
+            connection.Close();*/
+            #endregion
+            try
+            {
+                connection.Open();
+                OleDbCommand command = new OleDbCommand();
+                command.Connection = connection;
+
+                /*
+                String qry = "select BookSeatID, Source, Des, SeatNumber, CarNumber, T.TrainID, TrainType" +
+                    " from ((BookSeat as BS inner join ScheduleStation as SS on BS.ScheduleStationID=SS.ScheduleStationID)" +
+                    " inner join TrainSchedule as TS on SS.TrainScheduleID=TS.TrainScheduleID)" +
+                    " inner join Train as T on TS.TrainID=T.TrainID" +
+                    " where BS.Source = '"+ comboBox1.SelectedItem.ToString() + "' and BS.Des = '" + comboBox2.SelectedItem.ToString() + "'";*/
+                
+                if(comboBox1.SelectedIndex > comboBox2.SelectedIndex)
+                {
+                    String qry = "select BookSeatID, Source, Des, SeatNumber, CarNumber, BS.TrainType" +
+                " from ((BookSeat as BS inner join ScheduleStation as SS on BS.ScheduleStationID=SS.ScheduleStationID)" +
+                " inner join TrainSchedule as TS on SS.TrainScheduleID=TS.TrainScheduleID)" +
+                " inner join Train as T on TS.TrainID=T.TrainID where BS.TrainType='KTX3'";
+                    command.CommandText = qry;
+
+                    Array.Clear(seats, 0, seats.Length);
+                    Array.Clear(seats2, 0, seats2.Length);
+                    Array.Clear(seatsInt, 0, seats.Length);
+
+                    OleDbDataReader reader = command.ExecuteReader();
+
+                    int i = 0;
+                    while (reader.Read())
+                    {
+                        if (comboBox1.SelectedIndex < Array.IndexOf(Stations2, reader[2].ToString()))
+                        {
+                            //red
+                            if (reader[4].ToString() == "Car1")
+                            {
+                                seats[i] = reader[3].ToString();
+                            }
+                            else if (reader[4].ToString() == "Car2")
+                            {
+                                seats2[i] = reader[3].ToString();
+                            }
+                        }
+                        else if (comboBox2.SelectedIndex <= Array.IndexOf(Stations2, reader[2].ToString()))
+                        {
+                            //red
+                            if (reader[4].ToString() == "Car1")
+                            {
+                                seats[i] = reader[3].ToString();
+                            }
+                            else if (reader[4].ToString() == "Car2")
+                            {
+                                seats2[i] = reader[3].ToString();
+                            }
+                        }
+                        i++;
+                    }
+                }
+                else
+                {
+                    String qry = "select BookSeatID, Source, Des, SeatNumber, CarNumber, BS.TrainType" +
+                " from ((BookSeat as BS inner join ScheduleStation as SS on BS.ScheduleStationID=SS.ScheduleStationID)" +
+                " inner join TrainSchedule as TS on SS.TrainScheduleID=TS.TrainScheduleID)" +
+                " inner join Train as T on TS.TrainID=T.TrainID where BS.TrainType='KTX2'";
+                    command.CommandText = qry;
+
+                    Array.Clear(seats, 0, seats.Length);
+                    Array.Clear(seats2, 0, seats2.Length);
+                    Array.Clear(seatsInt, 0, seats.Length);
+
+                    OleDbDataReader reader = command.ExecuteReader();
+
+                    int i = 0;
+                    while (reader.Read())
+                    {
+                        if (comboBox1.SelectedIndex < Array.IndexOf(Stations, reader[2].ToString()))
+                        {
+                            //red
+                            if (reader[4].ToString() == "Car1")
+                            {
+                                seats[i] = reader[3].ToString();
+                            }
+                            else if (reader[4].ToString() == "Car2")
+                            {
+                                seats2[i] = reader[3].ToString();
+                            }
+                        }
+                        else if (comboBox2.SelectedIndex <= Array.IndexOf(Stations, reader[2].ToString()))
+                        {
+                            //red
+                            if (reader[4].ToString() == "Car1")
+                            {
+                                seats[i] = reader[3].ToString();
+                            }
+                            else if (reader[4].ToString() == "Car2")
+                            {
+                                seats2[i] = reader[3].ToString();
+                            }
+                        }
+                        i++;
+                    }
+                }
+                
+                
+                if (seats.Contains("1A"))
+                    button2.BackColor = Color.Red;
+                else
+                    button2.BackColor = Color.Orange;
+                if (seats.Contains("1B"))
+                    button3.BackColor = Color.Red;
+                else
+                    button3.BackColor = Color.Orange;
+                if (seats.Contains("2A"))
+                    button4.BackColor = Color.Red;
+                else
+                    button4.BackColor = Color.Orange;
+                if (seats.Contains("2B"))
+                    button5.BackColor = Color.Red;
+                else
+                    button5.BackColor = Color.Orange;
+                if (seats2.Contains("1A"))
+                    button6.BackColor = Color.Red;
+                else
+                    button6.BackColor = Color.Orange;
+                if (seats2.Contains("1B"))
+                    button7.BackColor = Color.Red;
+                else
+                    button7.BackColor = Color.Orange;
+                if (seats2.Contains("2A"))
+                    button8.BackColor = Color.Red;
+                else
+                    button8.BackColor = Color.Orange;
+                if (seats2.Contains("2B"))
+                    button9.BackColor = Color.Red;
+                else
+                    button9.BackColor = Color.Orange;
+            }
+            catch (Exception ee)
             {
                 MessageBox.Show("Error " + ee);
             }
@@ -311,7 +578,7 @@ namespace DatabaseProtject
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (button2.BackColor != Color.Red)
+            if (button2.BackColor == Color.Orange)
             {
                 button2.BackColor = Color.Green;
                 label12.Text += " " + button2.Text;
@@ -319,6 +586,12 @@ namespace DatabaseProtject
                 label14.Text = price.ToString();
                 bookSeats.Add(button2.Text);
                 CarNumber = "Car1";
+            }else if(button2.BackColor == Color.Green)
+            {
+                button2.BackColor = Color.Orange;
+                price -= 10;
+                label14.Text = price.ToString();
+                bookSeats.Remove(button2.Text);
             }
             /*connection.Open();
             OleDbCommand command = new OleDbCommand();

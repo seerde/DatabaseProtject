@@ -65,6 +65,7 @@
             this.label13 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -189,6 +190,7 @@
             this.button6.TabIndex = 14;
             this.button6.Text = "1A";
             this.button6.UseVisualStyleBackColor = false;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
             // 
             // button7
             // 
@@ -199,6 +201,7 @@
             this.button7.TabIndex = 13;
             this.button7.Text = "1B";
             this.button7.UseVisualStyleBackColor = false;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
             // 
             // button8
             // 
@@ -209,6 +212,7 @@
             this.button8.TabIndex = 12;
             this.button8.Text = "2A";
             this.button8.UseVisualStyleBackColor = false;
+            this.button8.Click += new System.EventHandler(this.button8_Click);
             // 
             // button9
             // 
@@ -219,6 +223,7 @@
             this.button9.TabIndex = 11;
             this.button9.Text = "2B";
             this.button9.UseVisualStyleBackColor = false;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // label4
             // 
@@ -446,7 +451,7 @@
             // 
             // button11
             // 
-            this.button11.Location = new System.Drawing.Point(570, 395);
+            this.button11.Location = new System.Drawing.Point(570, 375);
             this.button11.Name = "button11";
             this.button11.Size = new System.Drawing.Size(75, 23);
             this.button11.TabIndex = 26;
@@ -474,16 +479,26 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(558, 424);
+            this.textBox1.Location = new System.Drawing.Point(558, 414);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(100, 20);
             this.textBox1.TabIndex = 29;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(567, 398);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(85, 13);
+            this.label15.TabIndex = 30;
+            this.label15.Text = "Customer Name:";
             // 
             // Form3
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(777, 593);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label14);
             this.Controls.Add(this.label13);
@@ -561,5 +576,6 @@
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.Label label15;
     }
 }
