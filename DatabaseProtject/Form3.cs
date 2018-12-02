@@ -22,8 +22,8 @@ namespace DatabaseProtject
         String time1;
         String[] seats = new String[8];
         String[] seats2 = new String[8];
-        String[] Stations = { "Seoul", "Cheonan", "Daejeon", "Daegu", "Busan" };
-        String[] Stations2 = { "Busan", "Daegu", "Daejeon", "Cheonan", "Seoul" };
+        String[] Stations = { "Seoul", "Cheonan", "Daejeon", "Gumi", "Daegu", "Busan" };
+        String[] Stations2 = { "Busan", "Daegu", "Gumi", "Daejeon", "Cheonan", "Seoul" };
         List<String> bookSeats = new List<String>();
         List<int> ssID = new List<int>();
 
@@ -55,6 +55,8 @@ namespace DatabaseProtject
         {
             Form2 f2 = new Form2();
             this.Hide();
+            f2.StartPosition = FormStartPosition.Manual;
+            f2.Location = this.Location;
             f2.ShowDialog();
         }
 
@@ -276,6 +278,16 @@ namespace DatabaseProtject
             }
         }
 
+        private void bunifuFlatButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
         int[] seatsInt = new int[8];
         public Form3()
         {
@@ -312,7 +324,6 @@ namespace DatabaseProtject
 
                     command.Parameters.AddWithValue("@p1", comboBox1.SelectedItem.ToString());
                     command.Parameters.AddWithValue("@p2", comboBox2.SelectedItem.ToString());
-
                     OleDbDataReader reader = command.ExecuteReader();
 
                     while (reader.Read())

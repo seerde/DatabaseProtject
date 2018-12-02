@@ -13,6 +13,7 @@ namespace DatabaseProtject
 {
     public partial class Form2 : Form
     {
+        int StationID;
         private OleDbConnection connection = new OleDbConnection();
         public Form2()
         {
@@ -28,7 +29,6 @@ namespace DatabaseProtject
             connection.Open();
             OleDbCommand command = new OleDbCommand();
             command.Connection = connection;
-
             String qry = "select Train.TrainID, TrainType, StationName, DepartureTime, ArrivalTime" +
                 " from ((ScheduleStation inner join TrainSchedule on ScheduleStation.TrainScheduleID=TrainSchedule.TrainScheduleID)" +
                 " inner join Train on TrainSchedule.TrainID=Train.TrainID)" +
@@ -117,6 +117,89 @@ namespace DatabaseProtject
             this.Hide();
             Form3 f3 = new Form3();
             f3.ShowDialog();
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(1);
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void bunifuFlatButton2_Click(object sender, EventArgs e)
+        {
+            Form3 f3 = new Form3();
+            this.Hide();
+            f3.StartPosition = FormStartPosition.Manual;
+            f3.Location = this.Location;
+            f3.ShowDialog();
+        }
+
+        private void Form2_Load(object sender, EventArgs e)
+        {
+            //Form3 f3 = new Form3();
+            //this.Location = f3.Location;
+        }
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+
+            String qry = "select BookSeatID, Source, Des, SeatNumber, CarNumber, TrainType from BookSeat";
+            command.CommandText = qry;
+            OleDbDataReader reader = command.ExecuteReader();
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                dataGridView1.Columns.Add(reader.GetName(i), reader.GetName(i));
+            }
+            while (reader.Read())
+            {
+                dataGridView1.Rows.Add(reader[0].ToString(), reader[1].ToString(), reader[2].ToString(), reader[3].ToString(), reader[4].ToString());
+            }
+            connection.Close();
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+            String qry = "insert into Station(StationName) values('"+textBox1.Text+"')";
+            command.CommandText = qry;
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            connection.Open();
+            qry = "select StationID from Station where StationName = '"+textBox1.Text+"'";
+            command.CommandText = qry;
+            OleDbDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+                StationID = (int)reader[0];
+            connection.Close();
+
+            connection.Open();
+            qry = "insert into ScheduleStation(StationID, ArrivalTime, DepartureTime, TrainScheduleID) values('"+StationID+"', '"+textBox2.Text+"', '"+textBox3.Text+"', '2')";
+            command.CommandText = qry;
+            command.ExecuteNonQuery();
+            connection.Close();
+
+            connection.Open();
+            qry = "insert into ScheduleStation(StationID, ArrivalTime, DepartureTime, TrainScheduleID) values('" + StationID + "', '" + textBox2.Text + "', '" + textBox3.Text + "', '3')";
+            command.CommandText = qry;
+            command.ExecuteNonQuery();
+            connection.Close();
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
