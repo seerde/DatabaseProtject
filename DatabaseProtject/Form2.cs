@@ -14,6 +14,7 @@ namespace DatabaseProtject
     public partial class Form2 : Form
     {
         int StationID;
+        Form3 ff = new Form3();
         private OleDbConnection connection = new OleDbConnection();
         public Form2()
         {
@@ -140,8 +141,8 @@ namespace DatabaseProtject
 
         private void Form2_Load(object sender, EventArgs e)
         {
-            //Form3 f3 = new Form3();
-            //this.Location = f3.Location;
+            //Form3.Stations3.Insert(Form3.Stations3.IndexOf("Daegu"), "Gumi");
+            //Form3.Stations4.Insert(Form3.Stations4.IndexOf("Daejeon"), "Gumi");
         }
 
         private void button5_Click_1(object sender, EventArgs e)
@@ -195,11 +196,58 @@ namespace DatabaseProtject
             command.CommandText = qry;
             command.ExecuteNonQuery();
             connection.Close();
+            if (!Form3.Stations3.Contains("Gumi") && !Form3.Stations4.Contains("Gumi"))
+            {
+                Form3.Stations3.Insert(Form3.Stations3.IndexOf("Daegu"), "Gumi");
+                Form3.Stations4.Insert(Form3.Stations4.IndexOf("Daejeon"), "Gumi");
+            }
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            List<String> stations = new List<String>();
+            connection.Open();
+            OleDbCommand command = new OleDbCommand();
+            command.Connection = connection;
+            String qry = "select StationName from Station";
+            command.CommandText = qry;
+            OleDbDataReader reader = command.ExecuteReader();
+            String wantStation = "";
+            while (reader.Read())
+            {
+                stations.Add(reader[0].ToString());
+            }
+            reader.Close();
+            connection.Close();
+
+            connection.Open();
+            OleDbCommand command2 = new OleDbCommand();
+            command2.Connection = connection;
+            OleDbDataReader reader2;
+            foreach (String i in stations)
+            {
+                if (wantStation != i)
+                {
+                    wantStation = i;
+                    qry = "select count(Des) from BookSeat where Des = '" + i + "'";
+                    command2.CommandText = qry;
+                    reader2 = command2.ExecuteReader();
+                    while (reader2.Read())
+                    {
+                        if((int)reader2[0] > 0)
+                            this.chart1.Series["Station"].Points.AddXY(i, reader2[0]);
+                    }
+                    reader2.Close();
+                }
+            }
+            connection.Close();
+            //this.chart1.Series["Station"].Points.AddXY("Seoul", 10);
+            //this.chart1.Series["Station"].Points.AddXY("Daegu", 3);
         }
     }
 }

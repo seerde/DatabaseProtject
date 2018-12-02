@@ -22,8 +22,10 @@ namespace DatabaseProtject
         String time1;
         String[] seats = new String[8];
         String[] seats2 = new String[8];
-        String[] Stations = { "Seoul", "Cheonan", "Daejeon", "Gumi", "Daegu", "Busan" };
-        String[] Stations2 = { "Busan", "Daegu", "Gumi", "Daejeon", "Cheonan", "Seoul" };
+        String[] Stations = { "Seoul", "Cheonan", "Daejeon", "Daegu", "Busan" };
+        String[] Stations2 = { "Busan", "Daegu", "Daejeon", "Cheonan", "Seoul" };
+        public static List<String> Stations3 = new List<String>() { "Seoul", "Cheonan", "Daejeon", "Daegu", "Busan" };
+        public static List<String> Stations4 = new List<String>() { "Busan", "Daegu", "Daejeon", "Cheonan", "Seoul" };
         List<String> bookSeats = new List<String>();
         List<int> ssID = new List<int>();
 
@@ -288,6 +290,14 @@ namespace DatabaseProtject
 
         }
 
+        private void Form3_Load(object sender, EventArgs e)
+        {
+            comboBox1.Items.Clear();
+            comboBox2.Items.Clear();
+            comboBox1.Items.AddRange(Stations3.ToArray());
+            comboBox2.Items.AddRange(Stations3.ToArray());
+        }
+
         int[] seatsInt = new int[8];
         public Form3()
         {
@@ -474,7 +484,8 @@ namespace DatabaseProtject
                     int i = 0;
                     while (reader.Read())
                     {
-                        if (comboBox1.SelectedIndex < Array.IndexOf(Stations2, reader[2].ToString()))
+                        //if (comboBox1.SelectedIndex < Array.IndexOf(Stations2, reader[2].ToString()))
+                        if (comboBox1.SelectedIndex < Stations4.IndexOf(reader[2].ToString()))
                         {
                             //red
                             if (reader[4].ToString() == "Car1")
@@ -486,7 +497,8 @@ namespace DatabaseProtject
                                 seats2[i] = reader[3].ToString();
                             }
                         }
-                        else if (comboBox2.SelectedIndex <= Array.IndexOf(Stations2, reader[2].ToString()))
+                        //else if (comboBox2.SelectedIndex <= Array.IndexOf(Stations2, reader[2].ToString()))
+                        else if (comboBox2.SelectedIndex <= Stations4.IndexOf(reader[2].ToString()))
                         {
                             //red
                             if (reader[4].ToString() == "Car1")
@@ -518,7 +530,8 @@ namespace DatabaseProtject
                     int i = 0;
                     while (reader.Read())
                     {
-                        if (comboBox1.SelectedIndex < Array.IndexOf(Stations, reader[2].ToString()))
+                        //if (comboBox1.SelectedIndex < Array.IndexOf(Stations, reader[2].ToString()))
+                        if (comboBox1.SelectedIndex < Stations3.IndexOf(reader[2].ToString()))
                         {
                             //red
                             if (reader[4].ToString() == "Car1")
@@ -530,7 +543,8 @@ namespace DatabaseProtject
                                 seats2[i] = reader[3].ToString();
                             }
                         }
-                        else if (comboBox2.SelectedIndex <= Array.IndexOf(Stations, reader[2].ToString()))
+                        //else if (comboBox2.SelectedIndex <= Array.IndexOf(Stations, reader[2].ToString()))
+                        else if (comboBox2.SelectedIndex <= Stations3.IndexOf(reader[2].ToString()))
                         {
                             //red
                             if (reader[4].ToString() == "Car1")

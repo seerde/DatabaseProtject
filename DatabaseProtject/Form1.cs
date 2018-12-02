@@ -53,10 +53,15 @@ namespace DatabaseProtject
                     usr = textBox1.Text;
                     usrLvl = 1;
                     this.Hide();
-                    Form3 f3 = new Form3();
-                    Form2 f2 = new Form2();
-                    f3.ShowDialog();
+                    //Form3 f3 = new Form3();
+                    //Form2 f2 = new Form2();
+                    //f3.ShowDialog();
                     //f2.ShowDialog();
+                    Form3 f3 = new Form3();
+                    this.Hide();
+                    f3.StartPosition = FormStartPosition.Manual;
+                    f3.Location = this.Location;
+                    f3.ShowDialog();
                 }
                 else
                     label3.Text = "Wrong Password or Username";
@@ -89,6 +94,16 @@ namespace DatabaseProtject
                 }
                 connection.Close();
             }
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            System.Environment.Exit(1);
+        }
+
+        private void label10_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
         }
     }
 }
